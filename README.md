@@ -13,7 +13,12 @@ happy_happy/
 ├── process_emails.py # Applies rule-based actions on emails
 ├── rules.json # JSON file with your custom email rules
 ├── requirements.txt # Python dependencies
+└── tests/
+    |__ __init__.py
+    ├── test_rule_engine.py
+    └── test_process_emails.py
 └── README.md # This file :)
+
 ```
 ---
 ## ⚙️ Setup Instructions
