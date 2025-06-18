@@ -1,0 +1,14 @@
+[
+  {
+    "rule_name": "Recent Emails (Last 2 Days)",
+    "predicate": "All",
+    "conditions": [
+      {
+        "field": "Received Date",
+        "predicate": "less_than",
+        "value": "2 days"
+      }
+    ],
+    "actions": []
+  }
+]
