@@ -10,7 +10,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 import config  # centralized configuration file
 
-#Authenticates with the Gmail API using modify scope from the config and returns a service client for performing email actions.
+#Autheticates with the Gmail API using modify scope from the config and returns a service client for performing email actions.
 def authenticate_gmail_modify():
     """
     Authenticates with Gmail API using modify scopes from the config file.
@@ -20,7 +20,9 @@ def authenticate_gmail_modify():
     # Using TOKEN_FILE from config
     if os.path.exists(config.TOKEN_FILE):
         # Using SCOPES_READ_WRITE from config
-        creds = Credentials.from_authorized_user_file(config.TOKEN_FILE, config.SCOPES_READ_WRITE)
+        creds = Credentials.from_authorized_user_file(
+            config.TOKEN_FILE, config.SCOPES_READ_WRITE
+        )
 
     if not creds or not creds.valid:
         # Re-authenticate or refresh token if needed
@@ -28,7 +30,9 @@ def authenticate_gmail_modify():
             creds.refresh(Request())
         else:
             # Using CREDENTIALS_FILE and SCOPES_READ_WRITE from config
-            flow = InstalledAppFlow.from_client_secrets_file(config.CREDENTIALS_FILE, config.SCOPES_READ_WRITE)
+            flow = InstalledAppFlow.from_client_secrets_file(
+                config.CREDENTIALS_FILE, config.SCOPES_READ_WRITE
+            )
             creds = flow.run_local_server(port=0)
         # Save the new token
         with open(config.TOKEN_FILE, 'w') as token:
@@ -50,6 +54,7 @@ def get_emails_from_db():
 # This function checks if the email matches the specified conditions in the rule.
 def evaluate_condition(email, condition):
     """Evaluates a single rule condition against an email's data."""
+
     field = condition['field']
     predicate = condition['predicate']
     value = condition['value']
@@ -107,7 +112,7 @@ def main():
     service = authenticate_gmail_modify()
 
     try:
-        # Corrected: Using RULES_FILE from config
+        # Using RULES_FILE_PATH from config
         with open(config.RULES_FILE_PATH) as f:
             rules = json.load(f)
     except FileNotFoundError:

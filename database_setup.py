@@ -1,6 +1,6 @@
-# database_setup.py
+
 import psycopg2
-import config  # Import configuration
+import config  
 
 def setup_database():
     """

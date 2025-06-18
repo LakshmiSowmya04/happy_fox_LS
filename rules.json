@@ -1,14 +1,81 @@
 [
   {
-    "rule_name": "Recent Emails (Last 2 Days)",
+    "rule_name": "College Placement Opportunities",
     "predicate": "All",
     "conditions": [
       {
-        "field": "Received Date",
-        "predicate": "less_than",
-        "value": "2 days"
+        "field": "From",
+        "predicate": "contains",
+        "value": "sdaplacements@bmsit.in"
       }
     ],
-    "actions": []
+    "actions": [
+      {
+        "action": "Mark as Unread"
+      },
+      {
+        "action": "Move Message",
+        "value": "Placements"
+      }
+    ]
+  },
+  {
+    "rule_name": "Tech News and Competitions",
+    "predicate": "Any",
+    "conditions": [
+      {
+        "field": "From",
+        "predicate": "contains",
+        "value": "techgig.com"
+      },
+      {
+        "field": "From",
+        "predicate": "contains",
+        "value": "dare2compete.news"
+      }
+    ],
+    "actions": [
+      {
+        "action": "Move Message",
+        "value": "Promotions_labeled"
+      }
+    ]
+  },
+  {
+    "rule_name": "Google Security Alerts",
+    "predicate": "All",
+    "conditions": [
+      {
+        "field": "From",
+        "predicate": "contains",
+        "value": "no-reply@accounts.google.com"
+      },
+      {
+        "field": "Subject",
+        "predicate": "contains",
+        "value": "Security alert"
+      }
+    ],
+    "actions": [
+      {
+        "action": "Mark as Unread"
+      }
+    ]
+  },
+  {
+  "rule_name": "Mark padma's Emails as Read",
+  "predicate": "All",
+  "conditions": [
+    {
+      "field": "From",
+      "predicate": "contains",
+      "value": "bhatpadma25@gmail.com"
+    }
+  ],
+  "actions": [
+    {
+      "action": "Mark as Read"
+    }
+  ]
   }
 ]

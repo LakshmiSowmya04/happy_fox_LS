@@ -2,7 +2,7 @@ import os.path
 import base64
 import psycopg2
 from datetime import datetime
-from dateutil import parser  # Requires: pip install python-dateutil
+from dateutil import parser  
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -24,13 +24,14 @@ def authenticate_gmail():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            # Corrected: Using CREDENTIALS_FILE from config
+            # Using CREDENTIALS_FILE from config
             flow = InstalledAppFlow.from_client_secrets_file(config.CREDENTIALS_FILE, config.SCOPES_READ_WRITE)
             creds = flow.run_local_server(port=0)
-        # Corrected: Using TOKEN_FILE from config
+        # Using TOKEN_FILE from config
         with open(config.TOKEN_FILE, 'w') as token:
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
+
 
 # stores emails from the PostgreSQL database
 def store_email(message_id, from_address, subject, message_body, received_date):
@@ -44,7 +45,7 @@ def store_email(message_id, from_address, subject, message_body, received_date):
         ON CONFLICT (message_id) DO NOTHING;
     """
     try:
-        # Corrected: Using 'with' statement and proper DSN usage
+        # Using 'with' statement and proper DSN usage
         with psycopg2.connect(config.DB_DSN) as conn:
             with conn.cursor() as cursor:
                 cursor.execute(sql, (message_id, from_address, subject, message_body, received_date))
