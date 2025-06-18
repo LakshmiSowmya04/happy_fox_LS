@@ -8,8 +8,9 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-import config  # Your centralized configuration file
+import config  # centralized configuration file
 
+#Authenticates with the Gmail API using modify scope from the config and returns a service client for performing email actions.
 def authenticate_gmail_modify():
     """
     Authenticates with Gmail API using modify scopes from the config file.
@@ -34,10 +35,10 @@ def authenticate_gmail_modify():
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
 
+# reads mails from database 
 def get_emails_from_db():
     """Fetches all emails from the PostgreSQL database using the DSN from config."""
     try:
-        # Corrected: Using DB_DSN from config
         with psycopg2.connect(config.DB_DSN) as conn:
             with conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor) as cursor:
                 cursor.execute('SELECT * FROM emails')
@@ -46,9 +47,9 @@ def get_emails_from_db():
         print(f"Database Error: Could not fetch emails. {e}")
         return []
 
+# This function checks if the email matches the specified conditions in the rule.
 def evaluate_condition(email, condition):
     """Evaluates a single rule condition against an email's data."""
-    # This function's logic is sound and does not need changes.
     field = condition['field']
     predicate = condition['predicate']
     value = condition['value']
@@ -75,6 +76,7 @@ def evaluate_condition(email, condition):
         if predicate == "greater_than": return now - email_date > delta
     return False
 
+# This function executes the actions defined in the rule on the specified email.
 def execute_actions(service, message_id, actions):
     """Executes a list of actions (e.g., mark as read, move) on a given email."""
     # This function's logic is sound and does not need changes.

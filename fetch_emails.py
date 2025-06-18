@@ -8,8 +8,9 @@ from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-import config  # Your configuration file
+import config  # centralized configuration file
 
+# Authenticates with the Gmail API using read/write scopes from the config and returns a service client for performing email actions.
 def authenticate_gmail():
     """
     Authenticates with the Gmail API using settings from the config file.
@@ -31,6 +32,7 @@ def authenticate_gmail():
             token.write(creds.to_json())
     return build('gmail', 'v1', credentials=creds)
 
+# stores emails from the PostgreSQL database
 def store_email(message_id, from_address, subject, message_body, received_date):
     """
     Stores a single email into the PostgreSQL database using a 'with' statement
@@ -52,11 +54,13 @@ def store_email(message_id, from_address, subject, message_body, received_date):
     except Exception as e:
         print(f"An unexpected error occurred in store_email: {e}")
 
+# Fetches emails from Gmail and stores them in the database
+# This function uses the Gmail API to fetch emails based on the label and max results defined in config.py.
 def main():
     """Fetches emails from Gmail and stores them in the database."""
     service = authenticate_gmail()
     try:
-        # Corrected: Using FETCH_LABEL and MAX_RESULTS from config
+        # Using FETCH_LABEL and MAX_RESULTS from config
         response = service.users().messages().list(
             userId='me',
             labelIds=[config.FETCH_LABEL],
