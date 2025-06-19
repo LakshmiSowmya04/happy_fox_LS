@@ -63,13 +63,13 @@
     ]
   },
   {
-  "rule_name": "Mark padma's Emails as Read",
+  "rule_name": "Mark spirit's Emails as Read",
   "predicate": "All",
   "conditions": [
     {
       "field": "From",
       "predicate": "contains",
-      "value": "bhatpadma25@gmail.com"
+      "value": "lsowmya0280@gmail.com"
     }
   ],
   "actions": [
